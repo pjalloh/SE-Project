@@ -1,23 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SE Project</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Planalytics – Top Destination</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Italiana&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
-    <div style="display: flex; flex-direction: column; height: 100vh; margin: 0;">
-        <div style="flex: 1; border: 2px solid black;">
-            <h1>Planalytics</h1>   
-            <a href = "index.html">Home</a> 
-            <a href = "explore.html">Explore</a>
-            <a href = "profile.html">Profile</a>
-            <a href = "favorites.html">Favorites</a>
-        </div>
-        <div style="flex: 9; background-color: lightgray;">
-            <h2>Top Destination</h2>
-        </div>
-    </div>
+  <div class="wrap">
+    <nav class="nav" aria-label="Primary">
+      <div class="brand">Planalytics <span class="plane">✈︎</span></div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="explore.html">Explore</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="favorites.html">Favorites</a></li>
+      </ul>
+      <label class="search" aria-label="Search">
+        <input type="search" placeholder="Search" />
+        <span aria-hidden="true">🔍</span>
+      </label>
+    </nav>
 
+    <section class="hero" role="region" aria-label="Top Destination">
+      <div class="hero-grid">
+        <div>
+          <h1 class="eyebrow">TOP <span class="light">Destination</span></h1>
+          <p class="sub">Experience Paris your way—whether you're chasing romance, culture, or cuisine, the city invites you to fall in love, one moment at a time.</p>
+          <button class="cta">Your Next Big Adventure Starts Here</button>
+        </div>
+        <div class="photo-wrap">
+          <img class="photo" alt="Eiffel Tower at sunset over the Seine" src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1600&auto=format&fit=crop"/>
+        </div>
+      </div>
+      <div class="lip" aria-hidden="true"></div>
+    </section>
+  </div>
 </body>
 </html>
