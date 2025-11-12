@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Planalytics – Paris</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Italiana&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #f4efe6;      /* page background */
+      --panel: #f2ebdd;   /* cards + search */
+      --ink: #20352f;     /* deep green text */
+      --muted: #4f5954;   /* subtitle text */
+      --ring: rgba(32,53,47,.12);
+      --maxw: 1120px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    .wrap{max-width:var(--maxw);margin-inline:auto;padding:28px 24px 80px}
+
+    /* --- Shared nav to match first page --- */
+    .nav{display:flex;align-items:center;gap:24px;padding:14px 18px;background:#fff;border:1px solid #e8e0d0;border-radius:18px;box-shadow:0 10px 30px var(--ring)}
+    .brand{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:26px;letter-spacing:.2px;display:flex;align-items:center;gap:10px}
+    .brand .plane{font-size:18px}
+    .nav ul{list-style:none;display:flex;gap:26px;margin:0 auto 0 18px;padding:0}
+    .nav a{color:var(--ink);text-decoration:none;font-weight:500}
+    .nav a:hover{opacity:.75}
+    .search{position:relative;flex:0 0 240px}
+    .search input{width:100%;padding:10px 36px 10px 14px;border-radius:999px;border:1px solid #e2d9c8;background:var(--panel)}
+    .search span{position:absolute;right:12px;top:50%;translate:0 -50%;opacity:.7}
+
+    /* --- City header --- */
+    .city-header{display:flex;flex-direction:column;align-items:center;margin:36px 0 20px}
+    .city-avatar{
+      width:120px;height:120px;border-radius:50%;overflow:hidden;border:4px solid #fff;box-shadow:0 10px 30px var(--ring)
+    }
+    .city-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+    .city-title{font-family:'Playfair Display',serif;font-weight:800;font-size:36px;margin:14px 0 4px;letter-spacing:1px}
+    .city-sub{font-family:'Cormorant Garamond',serif;color:var(--muted);font-style:italic}
+
+    /* --- Gallery --- */
+    .gallery{margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+    .thumb{background:#fff;border:1px solid #e8e0d0;border-radius:14px;overflow:hidden;box-shadow:0 8px 24px var(--ring)}
+    .thumb img{display:block;width:100%;height:160px;object-fit:cover;transition:transform .25s ease}
+    .thumb:hover img{transform:scale(1.05)}
+
+    /* back link (optional) */
+    .back{margin-top:14px}
+    .back a{color:var(--ink);text-decoration:none;opacity:.8}
+    .back a:hover{opacity:1}
+
+    @media (max-width: 560px){
+      .city-title{font-size:30px}
+      .gallery{grid-template-columns:repeat(2,1fr)}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav" aria-label="Primary">
+      <div class="brand">Planalytics <span class="plane">✈︎</span></div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="explore.html">Explore</a></li>
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">Favorites</a></li>
+      </ul>
+      <label class="search" aria-label="Search">
+        <input type="search" placeholder="Search Paris" />
+        <span aria-hidden="true">🔍</span>
+      </label>
+    </nav>
+
+    <header class="city-header">
+      <div class="city-avatar">
+        <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=800" alt="Paris cover" />
+      </div>
+      <h1 class="city-title">PARIS</h1>
+      <p class="city-sub">The city of lights</p>
+    </header>
+
+    <section class="gallery" aria-label="Paris photo gallery">
+      <figure class="thumb"><img src="images/eiffeltower.jpg" alt="Aerial view of Paris"/></figure>
+      <figure class="thumb"><img src="images/pontalexandre.jpg" alt="Pont Alexandre III"/></figure>
+      <figure class="thumb"><img src="images/louvre.jpg" alt="Paris skyline at sunset"/></figure>
+      <figure class="thumb"><img src="images/notredame.webp" alt="Paris street"/></figure>
+      <figure class="thumb"><img src="images/arcdetriomphe.jpeg" alt="Montmartre"/></figure>
+      <figure class="thumb"><img src="images/sacrecoeur.webp" alt="Rue Crémieux"/></figure>
+      <figure class="thumb"><img src="" alt=""/></figure>
+      <figure class="thumb"><img src="" alt=""/></figure>
+    </section>
+
+    <div class="back"><a href="explore.html">← Back to Explore</a></div>
+  </div>
+</body>
+</html>
