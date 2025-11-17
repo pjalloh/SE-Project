@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Planalytics – User Profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Italiana&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .profile-card {
+      background: var(--panel); 
+      border: 1px solid #e8e0d0; 
+      border-radius: 22px; 
+      margin-top: 36px;
+      padding: 40px;
+      box-shadow: 0 16px 40px var(--ring);
+      max-width: 600px; 
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: #eee;
+      margin: 0 auto 20px;
+      border: 4px solid #fff;
+      box-shadow: 0 4px 15px var(--ring);
+      overflow: hidden;
+    }
+    .profile-avatar img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+
+    .profile-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 800;
+      font-size: 32px;
+      margin: 0 0 4px;
+    }
+
+    .profile-meta {
+      color: var(--muted);
+      margin-bottom: 30px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+    }
+
+    .info-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      text-align: left;
+    }
+    .info-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid #e8e0d0;
+    }
+    .info-list li:last-child {
+      border-bottom: none;
+    }
+    .info-list strong {
+      display: inline-block;
+      min-width: 120px;
+      color: var(--ink);
+      font-weight: 600;
+    }
+    
+    .cta-link {
+        display: inline-block; 
+        margin-top: 30px;
+        color: var(--accent-ink);
+        background: var(--accent);
+        border: none; 
+        padding: 10px 20px; 
+        border-radius: 999px; 
+        font-family: 'Cormorant Garamond', serif; 
+        font-weight: 600; 
+        font-size: 18px; 
+        text-decoration: none;
+        box-shadow: 0 3px 0 #eac077; 
+        transition: transform .05s ease;
+    }
+    .cta-link:active {
+        transform: translateY(1px); 
+        box-shadow: 0 2px 0 #eac077;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    
+    <nav class="nav" aria-label="Primary">
+      <div class="brand">Planalytics <span class="plane">✈︎</span></div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="explore.html">Explore</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="favorites.html">Favorites</a></li>
+      </ul>
+      <label class="search" aria-label="Search">
+        <input type="search" placeholder="Search" />
+        <span aria-hidden="true">🔍</span>
+      </label>
+    </nav>
+
+    <main class="profile-card" role="main">
+        <div class="profile-avatar">
+            <img src="images/usericon.jpg" alt="User Profile Picture" />
+        </div>
+        <h1 class="profile-title">Welcome Back!</h1>
+        <p class="profile-meta">Premium Member since 2025</p>
+        
+        <ul class="info-list">
+            <li><strong>Email:</strong>user@email.com</li>
+            <li><strong>Region:</strong>Europe</li>
+            <li><strong>Preferred Travel Style:</strong> Cultural Immersion</li>
+            <li><strong>Trips Booked:</strong>4 (Paris, London, Rome, Tokyo)</li>
+            <li><strong>Member Status:</strong>Gold Tier</li>
+        </ul>
+
+        <a href="#" class="cta-link">Edit Profile Settings</a>
+    </main>
+
+    <script src="script.js"></script> 
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

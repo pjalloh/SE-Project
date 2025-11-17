@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Planalytics – Your Favorites</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Italiana&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    
+    .page-title {
+        font-family: 'Playfair Display', serif;
+        font-weight: 800;
+        font-size: 40px;
+        margin-top: 36px;
+        text-align: center;
+        letter-spacing: 1px;
+    }
+
+    .explore {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+   
+    .destination {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px var(--ring);
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease;
+      text-decoration: none;
+    }
+    .destination:hover {
+      transform: translateY(-4px); /* Lift effect on hover */
+      box-shadow: 0 10px 28px rgba(0,0,0,.15);
+    }
+    .destination img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+    
+    /* City Name Overlay */
+    .destination span {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,.8);
+      padding: 8px 24px;
+      border-radius: 8px;
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 20px;
+      letter-spacing: 1px;
+      color: #000;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    
+    <nav class="nav" aria-label="Primary">
+      <div class="brand">Planalytics <span class="plane">✈︎</span></div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="explore.html">Explore</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="favorites.html">Favorites</a></li>
+      </ul>
+      <label class="search" aria-label="Search">
+        <input type="search" placeholder="Search Favorites" />
+        <span aria-hidden="true">🔍</span>
+      </label>
+    </nav>
+
+    <h1 class="page-title">Your Favorite Destinations</h1>
+
+    <section class="explore" aria-label="Favorite destinations list">
+      <a class="destination" href="nice.html">
+        <img src="images/nice.png" alt="Nice">
+        <span>NICE</span>
+      </a>
+      
+      <a class="destination" href="giverny.html">
+        <img src="images/giverny.jpg" alt="Giverny">
+        <span>GIVERNY</span>
+      </a>
+
+      <a class="destination" href="paris.html">
+        <img src="images/paris.jpg" alt="Paris">
+        <span>PARIS</span>
+      </a>
+
+      </section>
+    
+    <script src="script.js"></script> 
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
