@@ -1,0 +1,20 @@
+{
+    "name": "planalytics-server",
+    "version": "1.0.0",
+    "description": "Node.js backend for Planalytics using Express, JWT, and SQLite.",
+    "main": "server.js",
+    "type": "module",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "bcrypt": "^5.1.1",
+        "body-parser": "^1.20.2",
+        "cookie-parser": "^1.4.6",
+        "express": "^4.19.2",
+        "jsonwebtoken": "^9.0.2",
+        "sqlite": "^5.1.1",
+        "sqlite-async": "^1.2.0",
+        "sqlite3": "^5.1.7"
+    }
+}
