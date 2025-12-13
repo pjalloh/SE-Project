@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Planalytics – Find Your Best Trip</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Italiana&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- Main Styles -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Quiz-specific styles -->
+  <style>
+    .card {
+      max-width: 900px;
+      margin: 40px auto;
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    }
+
+    .card h1 {
+      font-family: "Playfair Display", serif;
+      font-size: 2.2rem;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      font-family: Inter, sans-serif;
+      opacity: 0.85;
+      margin-bottom: 24px;
+    }
+
+    .quiz {
+      display: grid;
+      gap: 18px;
+      font-family: Inter, sans-serif;
+    }
+
+    fieldset {
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    legend {
+      font-weight: 600;
+      padding: 0 10px;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    label.option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,0.15);
+      cursor: pointer;
+      background: white;
+    }
+
+    label.option:hover {
+      border-color: rgba(0,0,0,0.3);
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .btn {
+      padding: 12px 18px;
+      border-radius: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn.primary {
+      background: #111;
+      color: #fff;
+    }
+
+    .btn.ghost {
+      background: transparent;
+      border: 1px solid rgba(0,0,0,0.2);
+    }
+
+    .result {
+      display: none;
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid rgba(0,0,0,0.15);
+      background: #fafafa;
+    }
+
+    .result h2 {
+      font-family: "Playfair Display", serif;
+      margin-bottom: 8px;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: white;
+      border: 1px solid rgba(0,0,0,0.15);
+      margin-right: 6px;
+      margin-top: 6px;
+      font-size: 0.85rem;
+    }
+
+    .error {
+      display: none;
+      margin-top: 12px;
+      color: #b00020;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- Navigation -->
+    <nav class="nav" aria-label="Primary">
+      <div class="brand">Planalytics <span class="plane">✈︎</span></div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="explore.html">Explore</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="favorites.html">Favorites</a></li>
+        <li><a href="quiz.html" aria-current="page">Find Your Best Trip</a></li>
+      </ul>
+      <label class="search">
+        <input type="search" placeholder="Search" />
+        <span>🔍</span>
+      </label>
+    </nav>
+
+    <!-- Quiz Card -->
+    <main class="card">
+      <h1>Find Your Best Trip</h1>
+      <p>Answer a few questions and we’ll match you with the French city that fits your travel style best.</p>
+
+      <form id="tripQuiz" class="quiz">
+
+        <fieldset>
+          <legend>1) Your travel pace?</legend>
+          <div class="options">
+            <label class="option"><input type="radio" name="pace" value="relaxed"> Relaxed & slow</label>
+            <label class="option"><input type="radio" name="pace" value="balanced"> Balanced</label>
+            <label class="option"><input type="radio" name="pace" value="packed"> Fast & packed</label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>2) What matters most?</legend>
+          <div class="options">
+            <label class="option"><input type="radio" name="priority" value="food"> Food & cafés</label>
+            <label class="option"><input type="radio" name="priority" value="culture"> Culture & history</label>
+            <label class="option"><input type="radio" name="priority" value="nature"> Nature & scenery</label>
+            <label class="option"><input type="radio" name="priority" value="nightlife"> Nightlife & energy</label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>3) Ideal setting?</legend>
+          <div class="options">
+            <label class="option"><input type="radio" name="setting" value="coastal"> Coast / beach</label>
+            <label class="option"><input type="radio" name="setting" value="mountains"> Mountains / lakes</label>
+            <label class="option"><input type="radio" name="setting" value="city"> Big city</label>
+            <label class="option"><input type="radio" name="setting" value="storybook"> Charming & quaint</label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>4) Budget style?</legend>
+          <div class="options">
+            <label class="option"><input type="radio" name="budget" value="budget"> Budget-friendly</label>
+            <label class="option"><input type="radio" name="budget" value="mid"> Mid-range</label>
+            <label class="option"><input type="radio" name="budget" value="splurge"> Luxury / splurge</label>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <button type="button" class="btn ghost" id="resetBtn">Reset</button>
+          <button type="submit" class="btn primary">Get my match</button>
+        </div>
+
+        <div class="error" id="errorMsg">Please answer all questions.</div>
+
+        <section class="result" id="result">
+          <h2 id="cityTitle"></h2>
+          <p id="cityBlurb"></p>
+          <div id="tags"></div>
+        </section>
+
+      </form>
+    </main>
+  </div>
+
+  <!-- Quiz Logic -->
+  <script>
+    const cities = {
+      Paris: {
+        blurb: "Iconic museums, cafés, and nonstop culture—perfect for high-energy travelers.",
+        tags: ["Museums", "Cafés", "Big City"]
+      },
+      Bordeaux: {
+        blurb: "Wine, elegance, and a relaxed refined vibe.",
+        tags: ["Wine", "Food", "Elegant"]
+      },
+      Cannes: {
+        blurb: "Luxury beaches and glamour on the Riviera.",
+        tags: ["Luxury", "Beach", "Glamour"]
+      },
+      Giverny: {
+        blurb: "Peaceful, artistic, and picturesque.",
+        tags: ["Art", "Gardens", "Quiet"]
+      },
+      Lyon: {
+        blurb: "France’s food capital with rich history.",
+        tags: ["Food", "History"]
+      },
+      Marseille: {
+        blurb: "Bold, authentic, and coastal.",
+        tags: ["Coast", "Culture"]
+      },
+      Montpellier: {
+        blurb: "Youthful, sunny, and laid-back.",
+        tags: ["Sunny", "Affordable"]
+      },
+      Nice: {
+        blurb: "Mediterranean beauty and seaside charm.",
+        tags: ["Beach", "Riviera"]
+      },
+      Strasbourg: {
+        blurb: "Fairytale streets and European charm.",
+        tags: ["Romantic", "Architecture"]
+      }
+    };
+
+    const scoringRules = {
+      pace: {
+        relaxed: { Giverny: 3, Nice: 2, Bordeaux: 1 },
+        balanced: { Lyon: 2, Bordeaux: 2, Strasbourg: 2 },
+        packed: { Paris: 3, Marseille: 2 }
+      },
+      priority: {
+        food: { Lyon: 3, Bordeaux: 3 },
+        culture: { Paris: 3, Strasbourg: 3 },
+        nature: { Giverny: 3, Nice: 2 },
+        nightlife: { Paris: 3, Cannes: 2 }
+      },
+      setting: {
+        coastal: { Nice: 3, Cannes: 3, Marseille: 3 },
+        mountains: { Strasbourg: 3 },
+        city: { Paris: 4, Lyon: 2 },
+        storybook: { Giverny: 4, Strasbourg: 3 }
+      },
+      budget: {
+        budget: { Montpellier: 3, Marseille: 2 },
+        mid: { Bordeaux: 2, Lyon: 2 },
+        splurge: { Cannes: 3, Paris: 2 }
+      }
+    };
+
+    const form = document.getElementById("tripQuiz");
+    const resultEl = document.getElementById("result");
+    const cityTitle = document.getElementById("cityTitle");
+    const cityBlurb = document.getElementById("cityBlurb");
+    const tagsEl = document.getElementById("tags");
+    const errorMsg = document.getElementById("errorMsg");
+    const resetBtn = document.getElementById("resetBtn");
+
+    function getAnswers() {
+      return {
+        pace: form.querySelector('input[name="pace"]:checked')?.value,
+        priority: form.querySelector('input[name="priority"]:checked')?.value,
+        setting: form.querySelector('input[name="setting"]:checked')?.value,
+        budget: form.querySelector('input[name="budget"]:checked')?.value
+      };
+    }
+
+    function computeMatch(answers) {
+      const scores = {};
+      Object.keys(cities).forEach(city => scores[city] = 0);
+
+      for (const [q, a] of Object.entries(answers)) {
+        const boosts = scoringRules[q]?.[a];
+        if (!boosts) continue;
+        for (const [city, pts] of Object.entries(boosts)) {
+          scores[city] += pts;
+        }
+      }
+
+      return Object.entries(scores).sort((a,b) => b[1]-a[1])[0][0];
+    }
+
+    function renderResult(city) {
+      cityTitle.textContent = `Your match: ${city}`;
+      cityBlurb.textContent = cities[city].blurb;
+      tagsEl.innerHTML = "";
+      cities[city].tags.forEach(t => {
+        const span = document.createElement("span");
+        span.className = "pill";
+        span.textContent = t;
+        tagsEl.appendChild(span);
+      });
+      resultEl.style.display = "block";
+    }
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const answers = getAnswers();
+      if (!Object.values(answers).every(Boolean)) {
+        errorMsg.style.display = "block";
+        resultEl.style.display = "none";
+        return;
+      }
+      errorMsg.style.display = "none";
+      renderResult(computeMatch(answers));
+    });
+
+    resetBtn.addEventListener("click", () => {
+      form.reset();
+      resultEl.style.display = "none";
+      errorMsg.style.display = "none";
+      tagsEl.innerHTML = "";
+    });
+  </script>
+</body>
+</html>
