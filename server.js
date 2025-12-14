@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import bodyParser from 'body-parser';
 import cookieParser from "cookie-parser";
+import open from "open"; 
 
 import auth from './auth.js';
 import { initializeAuthDb } from './db.js';
@@ -10,91 +11,77 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 const SESSION_COOKIE_NAME = 'session_token';
 
-let database; // To hold the SQLite database instance
+let database; 
 
-// --- Middleware Setup ---
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(express.static(path.resolve(process.cwd()))); // Serve static files (HTML, CSS, JS) from the root directory
+app.use(express.static(path.resolve(process.cwd()), {
+    index: false
+}));
 
-
-/**
- * Middleware to validate the user's session token from the cookie.
- * If valid, calls next(). If invalid, redirects to login.
- */
 async function validateUser(req, res, next) {
     const token = req.cookies[SESSION_COOKIE_NAME];
 
-    // Attempt to authenticate with the token
     const result = await auth.authenticate(database, token);
 
     if (result.ok) {
-        // If authentication is successful, attach username to request for later use
         req.username = result.username; 
         next();
     } else {
-        // Authentication failed (no token or invalid token)
         console.log(`Authentication failed: ${result.message}`);
-        // Redirect to login, but save the intended URL in a cookie
+        res.clearCookie(SESSION_COOKIE_NAME, { httpOnly: true, sameSite: 'Strict' });
+
         res.cookie('forwardURL', req.originalUrl, { httpOnly: true, sameSite: 'Strict' });
         res.redirect("/login.html");
     }
 }
 
-// --- Authentication API Routes (Public) ---
-
-// POST /adduser: Handles new user registration
+// adduser handles new user registration
 app.post('/adduser', async (req, res) => {
     const { username, password } = req.body;
-    const result = await auth.addUser(database, username, password);
-
-    if (result.error) {
-        console.error("Registration failed:", result.error);
-        res.status(400).json({ error: result.error });
-    } else {
-        res.status(200).json({ message: "User created successfully" });
+    try {
+        await auth.register(database, username, password);
+        res.status(200).json({ message: 'User registered successfully. Please log in.' });
+    } catch (error) {
+        if (error.message.includes('User already exists')) {
+            return res.status(409).json({ error: error.message });
+        }
+        res.status(500).json({ error: error.message });
     }
 });
 
-// POST /login: Handles user sign-in
+// login handles sign in and returns a session token
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
-    const result = await auth.login(database, username, password);
-
-    if (result.token) {
-        // Success: Set the session token cookie
-        res.cookie(SESSION_COOKIE_NAME, result.token, {
-            httpOnly: true,
-            sameSite: 'Strict',
-            // secure: true, // Use this in production with HTTPS
-            maxAge: 1000 * 60 * 60 * 24 // 24 hours
+    try {
+        const token = await auth.login(database, username, password);
+        
+        res.cookie(SESSION_COOKIE_NAME, token, { 
+            httpOnly: true, 
+            secure: false, 
+            sameSite: 'Strict' 
         });
+
+        const forwardURL = req.cookies.forwardURL || '/index.html';
+        res.clearCookie('forwardURL'); 
         
-        // Check for a saved redirect URL and use it, otherwise go to index.html
-        const redirectUrl = req.cookies.forwardURL || '/index.html';
-        res.clearCookie('forwardURL'); // Clear the temporary redirect cookie
-        
-        res.status(200).json({ redirect: redirectUrl });
-    } else {
-        // Failure: Invalid credentials
-        res.status(401).json({ error: result.error });
+        res.status(200).json({ 
+            message: 'Login successful', 
+            token: token,
+            redirect: forwardURL 
+        });
+
+    } catch (error) {
+        res.status(401).json({ error: error.message });
     }
 });
 
-// GET /logout
-app.get('/logout', (req, res) => {
-    res.clearCookie(SESSION_COOKIE_NAME);
-    res.redirect('/login.html');
+
+app.post('/logout', (req, res) => {
+    res.clearCookie(SESSION_COOKIE_NAME, { httpOnly: true, sameSite: 'Strict' });
+    res.json({ message: 'Logged out successfully', redirect: '/login.html' });
 });
 
-// --- Application Routes (Protected) ---
-
-// Root URL defaults to index.html if authenticated, or login.html if not
-app.get('/', validateUser, (req, res) => {
-    res.sendFile(path.join(process.cwd(), 'index.html'));
-});
-
-// Protected routes using the validateUser middleware
 app.get('/index.html', validateUser, (req, res) => {
     res.sendFile(path.join(process.cwd(), 'index.html'));
 });
@@ -111,38 +98,43 @@ app.get('/favorites.html', validateUser, (req, res) => {
     res.sendFile(path.join(process.cwd(), 'favorites.html'));
 });
 
-// City-specific routes (example)
+app.get('/quiz.html', validateUser, (req, res) => {
+    res.sendFile(path.join(process.cwd(), 'quiz.html'));
+});
+
 app.get('/:city.html', validateUser, (req, res) => {
     const filePath = path.join(process.cwd(), `${req.params.city}.html`);
-    // NOTE: In a real app, you'd check if the file exists before serving.
     res.sendFile(filePath);
 });
 
-// Fallback for login page (must be accessible without validation)
 app.get('/login.html', (req, res) => {
     res.sendFile(path.join(process.cwd(), 'login.html'));
 });
 
+app.get('/', (req, res) => {
+    res.redirect('/index.html');
+});
 
-// --- Server Initialization ---
+
+
 async function startServer() {
     try {
         database = await initializeAuthDb();
         
-        app.listen(PORT, () => {
-            console.log(`Server running at http://localhost:${PORT}`);
+        app.listen(PORT, async () => {
+            const url = `http://localhost:${PORT}`;
+            console.log(`Server running at ${url}`);
+            
+            try {
+                await open(`http://localhost:${PORT}/login.html`); 
+            } catch (error) {
+                console.error("Error opening browser automatically:", error.message);
+                console.log(`Please manually navigate to: ${url}`);
+            }
         });
     } catch (err) {
         console.error("Failed to start server due to DB error:", err);
-        process.exit(1);
     }
 }
 
-// Global error handler
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
-  });
-
-  
 startServer();

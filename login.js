@@ -49,23 +49,24 @@ function addUser() {
             getElement("password").value = "";
             displayError("✅ Account created. Please log in now.");
         } else {
-            // Handle server error responses
-            let message = "Error adding user.";
+            // Handle registration errors
+            let message = "❌ Registration failed.";
             try {
-                // Try to parse JSON error message from the server
-                const errorData = await response.json();
-                message = errorData.error || message;
+                const errorJson = await response.json();
+                message = errorJson.error || message;
             } catch (e) {
-                // Fallback to plain text error message
                 message = await response.text() || message;
             }
-            displayError(`❌ Registration failed: ${message}`);
+            throw new Error(message);
         }
     }).catch(error => {
-        console.error("Network Error during registration:", error);
-        displayError("❌ A network error occurred while registering. Check server connection.");
+        console.error("Registration error:", error);
+        // Clean up the error message for display
+        let displayMsg = error.message.startsWith('❌') ? error.message : `❌ Registration failed: ${error.message}`;
+        displayError(displayMsg);
     });
 }
+
 
 /**
  * Handles the user login process by sending data to the /login endpoint.
@@ -73,43 +74,47 @@ function addUser() {
 function login() {
     const password = getElement("password").value;
     const username = getElement("username").value;
-    displayError("Processing...");
+    displayError("Logging in...");
 
     if (!username || !password) {
         displayError("Please enter both username (email) and password.");
         return;
     }
-
+    
     // Attempt to log in via the server's API
     fetch("/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
     }).then(async response => {
         if (!response.ok) {
-            // Handle error response from server
-            let message = "Something went wrong during login.";
+            // Handle HTTP errors
+            let message = "Login failed.";
             try {
-                // Try to parse JSON error message from the server
-                const errorData = await response.json();
-                message = errorData.error || message;
+                const errorJson = await response.json();
+                message = errorJson.error || message;
             } catch (e) {
-                 // Fallback to plain text error message
-                 message = await response.text() || message;
+                message = await response.text() || message;
             }
             throw new Error(message);
         }
         // Assuming the server returns a JSON object with a redirect field for the URL
         return response.json();
     }).then(data => {
-        // Successful login, redirect to the URL provided by the server
+        // --- FIX STARTS HERE ---
+        // Successful login, redirect to the URL provided by the server (data.redirect)
         if (data.redirect) {
-            window.location.href = data.redirect;
+            window.location.href = data.redirect; // Use the server-provided URL (e.g., /profile.html)
         } else {
-            displayError("Unexpected server response. No redirect URL found.");
+            // Fallback just in case
+            window.location.href = '/index.html'; 
         }
+        // --- FIX ENDS HERE ---
     }).catch(error => {
         console.error("Login error:", error);
         displayError(`❌ Login failed: ${error.message || "An unknown error occurred."}`);

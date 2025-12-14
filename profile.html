@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="style.css">
 
   <style>
+    /* Custom CSS for the profile page */
     .profile-card {
       background: var(--panel); 
       border: 1px solid #e8e0d0; 
@@ -26,68 +27,117 @@
       width: 100px;
       height: 100px;
       border-radius: 50%;
-      background: #eee;
-      margin: 0 auto 20px;
-      border: 4px solid #fff;
-      box-shadow: 0 4px 15px var(--ring);
       overflow: hidden;
+      margin: 0 auto 20px;
+      border: 4px solid var(--primary);
     }
+
     .profile-avatar img {
-      width: 100%; height: 100%; object-fit: cover;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .profile-title {
       font-family: 'Playfair Display', serif;
-      font-weight: 800;
-      font-size: 32px;
-      margin: 0 0 4px;
+      font-size: 2.2rem;
+      color: var(--text-dark);
+      margin-bottom: 5px;
     }
 
     .profile-meta {
-      color: var(--muted);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-medium);
       margin-bottom: 30px;
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
     }
 
     .info-list {
       list-style: none;
       padding: 0;
-      margin: 0;
+      margin: 0 0 30px 0;
       text-align: left;
     }
+
     .info-list li {
-      padding: 12px 0;
-      border-bottom: 1px solid #e8e0d0;
+      padding: 10px 0;
+      border-bottom: 1px dashed #eee;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: var(--text-dark);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    .info-list li:last-child {
-      border-bottom: none;
-    }
-    .info-list strong {
-      display: inline-block;
-      min-width: 120px;
-      color: var(--ink);
+
+    .info-list li strong {
       font-weight: 600;
+      color: var(--primary);
+      flex-shrink: 0;
     }
-    
-    .cta-link {
-        display: inline-block; 
-        margin-top: 30px;
-        color: var(--accent-ink);
-        background: var(--accent);
-        border: none; 
-        padding: 10px 20px; 
-        border-radius: 999px; 
-        font-family: 'Cormorant Garamond', serif; 
-        font-weight: 600; 
-        font-size: 18px; 
+
+    .info-list li span {
+        flex-grow: 1;
+        text-align: right;
+    }
+
+    .cta-link, .edit-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #f7d498; 
+        color: #3d2f2f;
         text-decoration: none;
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        border-radius: 12px;
+        margin-top: 20px;
         box-shadow: 0 3px 0 #eac077; 
         transition: transform .05s ease;
+        border: none;
+        cursor: pointer;
+        margin-left: 10px;
     }
-    .cta-link:active {
+    .cta-link:active, .edit-btn:active {
         transform: translateY(1px); 
         box-shadow: 0 2px 0 #eac077;
+    }
+
+    /* Edit Form Styles */
+    .edit-form-container {
+        display: none; /* Hidden by default */
+        text-align: left;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px dashed #e8e0d0;
+    }
+    .edit-form-container.active {
+        display: block;
+    }
+    .edit-form-container label {
+        display: block;
+        font-weight: 600;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        color: var(--primary);
+        font-size: 0.9rem;
+    }
+    .edit-form-container input, .edit-form-container select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-sizing: border-box;
+    }
+    .edit-form-container button {
+        margin-top: 25px;
+    }
+    .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+    .button-group button {
+        margin-top: 0;
     }
 
   </style>
@@ -108,24 +158,141 @@
 
     <main class="profile-card" role="main">
         <div class="profile-avatar">
-            <img src="images/usericon.jpg" alt="User Profile Picture" />
+            <img src="https://placehold.co/100x100/A0897C/FFFFFF?text=User" alt="User Profile Picture" />
         </div>
         <h1 class="profile-title">Welcome Back!</h1>
         <p class="profile-meta">Premium Member since 2025</p>
         
-        <ul class="info-list">
-            <li><strong>Email:</strong>user@email.com</li>
-            <li><strong>Region:</strong>Europe</li>
-            <li><strong>Preferred Travel Style:</strong> Cultural Immersion</li>
-            <li><strong>Trips Booked:</strong>4 (Paris, London, Rome, Tokyo)</li>
-            <li><strong>Member Status:</strong>Gold Tier</li>
+        <ul class="info-list" id="profile-info-display">
+            <!-- STATIC EMAIL ADDRESS -->
+            <li><strong>Email:</strong><span id="display-email">jane.doe@planalytics.com</span></li>
+            <li><strong>Region:</strong><span id="display-region"></span></li>
+            <li><strong>Preferred Style:</strong><span id="display-style"></span></li>
+            <li><strong>Trips Booked:</strong><span>4 (Paris, London, Rome, Tokyo)</span></li>
+            <li><strong>Member Status:</strong><span>Gold Tier</span></li>
         </ul>
 
-        <a href="#" class="cta-link">Edit Profile Settings</a>
+        <div class="button-group">
+            <button class="edit-btn" id="edit-profile-btn">Edit Profile</button>
+            <button class="cta-link" id="logout-btn">Logout</button>
+        </div>
+
+        <div class="edit-form-container" id="edit-form-container">
+            <form id="edit-profile-form">
+                <h2>Edit Details</h2>
+                
+                <label for="edit-email">Email (Cannot Change)</label>
+                <!-- This input will be populated statically for consistency -->
+                <input type="email" id="edit-email" name="email" disabled>
+                
+                <label for="edit-region">Region</label>
+                <select id="edit-region" name="region">
+                    <option value="Europe">Europe</option>
+                    <option value="Asia">Asia</option>
+                    <option value="North America">North America</option>
+                    <option value="South America">South America</option>
+                    <option value="Africa">Africa</option>
+                    <option value="Australia/Oceania">Australia/Oceania</option>
+                </select>
+                
+                <label for="edit-style">Preferred Travel Style</label>
+                <select id="edit-style" name="style">
+                    <option value="Cultural Immersion">Cultural Immersion</option>
+                    <option value="Adventure">Adventure</option>
+                    <option value="Relaxation">Relaxation</option>
+                    <option value="Budget">Budget</option>
+                    <option value="Luxury">Luxury</option>
+                </select>
+                
+                <div class="button-group">
+                    <button type="submit" class="cta-link">Save Changes</button>
+                    <button type="button" class="edit-btn" id="cancel-edit-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+
     </main>
 
-    <script src="script.js"></script> 
   </div>
-  <script src="script.js"></script>
+  
+<script>
+    let userData = {
+        email: 'user@planalytics.com', // Static email for display and form
+        region: 'Europe',
+        style: 'Cultural Immersion'
+    };
+
+    const editFormContainer = document.getElementById('edit-form-container');
+    const editProfileBtn = document.getElementById('edit-profile-btn');
+    const cancelEditBtn = document.getElementById('cancel-edit-btn');
+    const editProfileForm = document.getElementById('edit-profile-form');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    function updateProfileDisplay(data) {
+        document.getElementById('display-email').textContent = data.email;
+        document.getElementById('display-region').textContent = data.region;
+        document.getElementById('display-style').textContent = data.style;
+    }
+
+    function toggleEditMode(isEditing) {
+        if (isEditing) {
+            document.getElementById('edit-email').value = userData.email;
+            document.getElementById('edit-region').value = userData.region;
+            document.getElementById('edit-style').value = userData.style;
+            
+            editFormContainer.classList.add('active');
+            editProfileBtn.style.display = 'none';
+        } else {
+            editFormContainer.classList.remove('active');
+            editProfileBtn.style.display = 'inline-block';
+        }
+    }
+
+    editProfileBtn.addEventListener('click', () => {
+        toggleEditMode(true);
+    });
+
+    cancelEditBtn.addEventListener('click', () => {
+        toggleEditMode(false);
+    });
+
+    editProfileForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const newEmail = document.getElementById('edit-email').value; 
+        const newRegion = document.getElementById('edit-region').value;
+        const newStyle = document.getElementById('edit-style').value;
+
+        userData = {
+            email: newEmail,
+            region: newRegion,
+            style: newStyle
+        };
+        
+        updateProfileDisplay(userData);
+        toggleEditMode(false);
+
+        console.log("Profile updated successfully with data (client-side only):", userData); 
+    });
+
+    logoutBtn.addEventListener('click', () => {
+        fetch('/logout', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                }
+            })
+            .catch(error => {
+                console.error('Logout error:', error);
+                const errorMessage = document.createElement('div');
+                errorMessage.textContent = 'Failed to log out. Please try again.';
+                errorMessage.style.cssText = 'position: fixed; top: 10px; right: 10px; background: #dc3545; color: white; padding: 10px; border-radius: 5px; z-index: 1000;';
+                document.body.appendChild(errorMessage);
+                setTimeout(() => document.body.removeChild(errorMessage), 3000);
+            });
+    });
+
+    updateProfileDisplay(userData);
+</script>
 </body>
 </html>

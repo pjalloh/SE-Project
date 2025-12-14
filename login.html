@@ -5,20 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Planalytics – Login</title>
   
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Italiana&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 
   <style>
-    /* Specific styles for the Login Page */
-    
     html, body {
         height: 100%;
         display: flex;
-        align-items: center; /* Vertical center */
-        justify-content: center; /* Horizontal center */
+        align-items: center; 
+        justify-content: center; 
         padding: 0;
     }
     .wrap {
@@ -28,7 +25,6 @@
         padding: 24px;
     }
 
-    /* Styling the Login Card to match the app's aesthetic */
     .login-card {
       background: var(--panel); 
       border: 1px solid #e8e0d0; 
@@ -52,7 +48,6 @@
         font-family: 'Cormorant Garamond', serif;
     }
 
-    /* Form Styles */
     .login-form input[type="email"], 
     .login-form input[type="password"] {
       width: 100%;
@@ -83,7 +78,6 @@
         transition: transform .05s ease;
     }
     
-    /* Specific styling for the Register button */
     #newUser {
         background: none;
         color: var(--ink);
@@ -101,9 +95,8 @@
         cursor: not-allowed;
     }
     
-    /* Error Message Styling */
     #error {
-        color: #e53e3e; /* A standard error red */
+        color: #e53e3e;
         background: #fef2f2;
         border: 1px solid #fbd2d2;
         padding: 10px;
@@ -117,7 +110,6 @@
         align-items: center;
     }
 
-    /* The logo/brand text at the top */
     .login-brand {
         font-family: "Cormorant Garamond", serif; 
         font-weight: 600; 
@@ -134,7 +126,6 @@
 </head>
 <body>
   <div class="wrap">
-    <!-- Brand/Logo -->
     <div class="login-brand">Planalytics <span class="plane">✈︎</span></div>
     
     <main class="login-card" role="main">
@@ -142,21 +133,17 @@
         <p class="login-subtitle">Sign in or register to access your personalized travel plans.</p>
         
         <form id="login-form" class="login-form">
-            <!-- Email/Username -->
             <input type="email" id="username" placeholder="Email Address (Username)" required />
-            <!-- Password -->
             <input type="password" id="password" placeholder="Password" required minlength="6"/>
             
             <button type="submit" id="loginButton">Log In</button>
             <button type="button" id="newUser">Register new user</button>
             
-            <!-- Error Message Display -->
             <div id="error">&nbsp;</div>
         </form>
 
     </main>
     
-    <!-- Link the client-side logic -->
     <script src="login.js"></script>
   </div>
 </body>
